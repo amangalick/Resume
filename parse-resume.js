@@ -12,7 +12,7 @@ const require = createRequire(import.meta.url);
 const pdfParse = require("pdf-parse");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBNWts5DDZZwGtctl_UADCVNjFFnFB7vXc",
+  apiKey: process.env.VITE_FIREBASE_API_KEY,
   authDomain: "steel-capsule-427323-f6.firebaseapp.com",
   projectId: "steel-capsule-427323-f6",
   storageBucket: "steel-capsule-427323-f6.firebasestorage.app",
