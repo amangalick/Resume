@@ -1,0 +1,30 @@
+[
+  {
+    "year": 2024,
+    "role": "Your Job Title",
+    "company": "Company Name",
+    "description": [
+      "Did something impactful here",
+      "Built or improved something",
+      "Led or collaborated on something"
+    ]
+  },
+  {
+    "year": 2022,
+    "role": "Previous Job Title",
+    "company": "Previous Company",
+    "description": [
+      "Responsibility or achievement",
+      "Another bullet point"
+    ]
+  },
+  {
+    "year": 2020,
+    "role": "Earlier Role",
+    "company": "Earlier Company",
+    "description": [
+      "What you did here",
+      "Another achievement"
+    ]
+  }
+]

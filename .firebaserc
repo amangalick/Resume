@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "steel-capsule-427323-f6"
+  },
+  "targets": {
+    "steel-capsule-427323-f6": {
+      "hosting": {
+        "resume": [
+          "amresume"
+        ]
+      }
+    }
+  }
+}
