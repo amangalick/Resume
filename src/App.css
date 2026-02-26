@@ -62,6 +62,15 @@
   max-width: 620px;
 }
 
+.hero-bio strong {
+  color: #e0e0e0;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .hero-links {
   display: flex;
   gap: 1.25rem;
@@ -487,6 +496,14 @@
     color: #555;
   }
 
+  .hero-bio strong {
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   .resume-section {
     border-bottom-color: #ddd;
   }
@@ -545,6 +562,13 @@
 /* ── Force light theme (dark-system users who switch to light) ─ */
 :root[data-theme="light"] .hero { border-bottom-color: #ddd; }
 :root[data-theme="light"] .hero-bio { color: #555; }
+:root[data-theme="light"] .hero-bio strong {
+  color: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 :root[data-theme="light"] .resume-section { border-bottom-color: #ddd; }
 :root[data-theme="light"] .resume-item:not(.skill-match) { border-color: #ddd; }
 :root[data-theme="light"] .card { background-color: #f7f7f7; border-color: #ddd; }

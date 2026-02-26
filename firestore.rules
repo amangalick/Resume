@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow public reads, authenticated writes
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false; // Set to 'if true' temporarily when seeding
+    }
+  }
+}

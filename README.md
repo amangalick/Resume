@@ -49,6 +49,29 @@ npm install
 npm run dev
 ```
 
+## Seeding Data to Firestore
+
+To populate your resume with data, use the seed scripts:
+
+```bash
+# Seed experience (work history with AI/development emphasis)
+node seed.js
+
+# Seed skills (LLMs, IDEs, CLIs, Coding Agents, etc.)
+node seed-skills.js
+
+# Seed education
+node seed-education.js
+
+# Seed projects (with tech stack tags)
+node seed-projects.js
+```
+
+**Note:** Before running seed scripts:
+1. Make sure your Firebase API key is in `.env` as `VITE_FIREBASE_API_KEY`
+2. Update the data in `resume-data.json` and seed files with your actual experience
+3. The skills section now prominently features AI/LLM tools, coding agents, and modern development workflows
+
 ## Deploying
 
 ```bash

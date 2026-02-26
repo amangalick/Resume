@@ -167,10 +167,11 @@ function App() {
         </div>
         <p className="hero-subtitle">B.S. Computer Science & Mathematics · Palo Alto, CA</p>
         <p className="hero-bio">
-          CS &amp; Math grad who loves building software that solves real problems and explaining it clearly.
-          I thrive in diverse, collaborative teams — equally comfortable deep in a codebase or translating
-          technical work for non-technical stakeholders. Looking for roles where engineering and communication
-          both matter.
+          <strong>CS &amp; Math grad comfortable using AI/Agents from design to code.</strong> I love building software 
+          that solves real problems and explaining it clearly. I thrive in diverse, collaborative teams — equally 
+          comfortable deep in a codebase, leveraging AI tools to accelerate development, or translating technical 
+          work for non-technical stakeholders. Looking for roles where engineering, AI-augmented workflows, and 
+          communication all matter.
         </p>
         <div className="hero-links">
           <span className="email-wrap">
