@@ -1,0 +1,144 @@
+/* Privacy Policy Page Styles */
+.privacy-policy-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--bg-color, #f5f5f5);
+  color: var(--text-color, #333);
+}
+
+.privacy-policy-content {
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.privacy-policy-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color, #333);
+}
+
+.privacy-policy-content .last-updated {
+  font-size: 0.9rem;
+  color: var(--text-secondary, #666);
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.privacy-policy-content .intro {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  color: var(--text-secondary, #555);
+}
+
+.privacy-policy-content section {
+  margin-bottom: 2.5rem;
+}
+
+.privacy-policy-content h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--text-color, #333);
+  border-bottom: 2px solid var(--accent-color, #007bff);
+  padding-bottom: 0.5rem;
+}
+
+.privacy-policy-content p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary, #555);
+}
+
+.privacy-policy-content ul {
+  list-style-position: inside;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.privacy-policy-content li {
+  margin-bottom: 0.8rem;
+  color: var(--text-secondary, #555);
+}
+
+.privacy-policy-content a {
+  color: var(--link-color, #007bff);
+  text-decoration: none;
+  border-bottom: 1px solid var(--link-color, #007bff);
+  transition: opacity 0.2s;
+}
+
+.privacy-policy-content a:hover {
+  opacity: 0.7;
+}
+
+.privacy-policy-content .contact-email {
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+.privacy-policy-content .back-link {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color, #ddd);
+}
+
+.privacy-policy-content .back-link a {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--button-bg, #f0f0f0);
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.privacy-policy-content .back-link a:hover {
+  background-color: var(--button-hover, #e0e0e0);
+}
+
+/* Dark mode support */
+[data-theme="dark"] .privacy-policy-container {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --link-color: #66b3ff;
+  --border-color: #333;
+  --button-bg: #2a2a2a;
+  --button-hover: #3a3a3a;
+}
+
+[data-theme="light"] .privacy-policy-container {
+  --bg-color: #f5f5f5;
+  --text-color: #333;
+  --text-secondary: #666;
+  --link-color: #007bff;
+  --border-color: #ddd;
+  --button-bg: #f0f0f0;
+  --button-hover: #e0e0e0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .privacy-policy-container {
+    padding: 1rem;
+  }
+
+  .privacy-policy-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .privacy-policy-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .privacy-policy-content {
+    font-size: 0.95rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .privacy-policy-content .back-link {
+    display: none;
+  }
+}
