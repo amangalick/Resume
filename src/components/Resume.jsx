@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchExperience, fetchEducation, fetchSkills, fetchProjects, fetchCertifications } from '../firebase';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import '../App.css';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -11,11 +11,12 @@ function calcDuration(startDate, endDate) {
   if (!startDate) return '';
   const parseDate = (s) => {
     if (!s || s === 'Present') return new Date();
-    const [mon, yr] = s.split(' ');
-    return new Date(parseInt(yr), MONTHS.indexOf(mon));
+    const [mon, yr] = s.trim().split(/\s+/);
+    const monthIndex = MONTHS.findIndex(m => mon.toLowerCase().startsWith(m.toLowerCase()));
+    return new Date(parseInt(yr), monthIndex);
   };
   const total = (end, start) =>
-    (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+    (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
   const months = total(parseDate(endDate), parseDate(startDate));
   if (months <= 0) return '';
   const yrs = Math.floor(months / 12);
@@ -44,8 +45,6 @@ export default function Resume() {
   const [skills, setSkills] = useState([]);
   const [projects, setProjects] = useState([]);
   const [certifications, setCertifications] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [isRecruiterMode, setMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [activeSection, setActiveSection] = useState('experience');
@@ -55,8 +54,6 @@ export default function Resume() {
     if (saved) return saved;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
-
-  const touchStartX = useRef(null);
 
   useEffect(() => {
     Promise.all([fetchExperience(), fetchEducation(), fetchSkills(), fetchProjects(), fetchCertifications()])
@@ -69,16 +66,6 @@ export default function Resume() {
         setLoading(false);
       });
   }, []);
-
-  useEffect(() => {
-    const handleKey = (e) => {
-      if (isRecruiterMode) return;
-      if (e.key === 'ArrowRight') setIndex(i => Math.min(i + 1, items.length - 1));
-      if (e.key === 'ArrowLeft') setIndex(i => Math.max(i - 1, 0));
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [isRecruiterMode, items.length]);
 
   // Active section tracking on scroll
   useEffect(() => {
@@ -111,26 +98,7 @@ export default function Resume() {
   };
 
   const handlePrint = () => {
-    const prev = isRecruiterMode;
-    if (!isRecruiterMode) setMode(true);
-    setTimeout(() => {
-      window.print();
-      if (!prev) setMode(false);
-    }, 150);
-  };
-
-  // Swipe handlers for story mode
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-  const handleTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
-    const delta = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(delta) > 40) {
-      if (delta < 0) setIndex(i => Math.min(i + 1, items.length - 1));
-      if (delta > 0) setIndex(i => Math.max(i - 1, 0));
-    }
-    touchStartX.current = null;
+    window.print();
   };
 
   const dateRange = (item) => {
@@ -152,8 +120,8 @@ export default function Resume() {
   const navSections = [
     { id: 'experience', label: 'Experience', show: items.length > 0 },
     { id: 'education', label: 'Education', show: education.length > 0 },
-    { id: 'skills', label: 'Skills', show: skills.length > 0 },
     { id: 'projects', label: 'Projects', show: projects.length > 0 },
+    { id: 'skills', label: 'Skills', show: skills.length > 0 },
     { id: 'certifications', label: 'Certs', show: certifications.length > 0 },
   ];
 
@@ -217,55 +185,30 @@ export default function Resume() {
       <section id="experience" className="resume-section">
         <div className="section-header">
           <h2 className="section-title">Experience</h2>
-          {!loading && (
-            <button className="no-print" onClick={() => { setMode(!isRecruiterMode); setIndex(0); }}>
-              {isRecruiterMode ? 'Story Mode' : 'Recruiter Mode'}
-            </button>
-          )}
         </div>
 
         {loading ? (
           <SkeletonCard />
         ) : items.length === 0 ? (
-          <p style={{color: '#888', fontSize: '0.9em'}}>No experience data found. Make sure your Firestore documents have an <code>order</code> field.</p>
-        ) : isRecruiterMode ? (
-          <div className="list-view">
-            {items.map(item => (
-              <div key={item.id} className="resume-item">
-                <h3>{item.role} @ {item.company}</h3>
-                <p className="resume-item-dates">{dateRange(item)}</p>
-                <p>{item.description.join(' ')}</p>
-              </div>
-            ))}
-          </div>
+          <p style={{color: 'var(--color-text-muted)', fontSize: '0.9em'}}>No experience data found. Make sure your Firestore documents have an <code>order</code> field.</p>
         ) : (
-          <div
-            className="story-view"
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-          >
-            <div className="progress">{index + 1} / {items.length}</div>
-            <AnimatePresence mode="wait">
+          <div className="experience-grid">
+            {items.map((item, i) => (
               <motion.div
-                key={items[index].id}
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -100, opacity: 0 }}
+                key={item.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: Math.min(i * 0.06, 0.3) }}
                 className="card"
               >
-                <h2 className="card-dates">{dateRange(items[index])}</h2>
-                <h3>{items[index].role}</h3>
-                <h4>{items[index].company}</h4>
+                <h2 className="card-dates">{dateRange(item)}</h2>
+                <h3>{item.role}</h3>
+                <h4>{item.company}</h4>
                 <ul>
-                  {items[index].description.map((point, i) => <li key={i}>{point}</li>)}
+                  {item.description.map((point, idx) => <li key={idx}>{point}</li>)}
                 </ul>
               </motion.div>
-            </AnimatePresence>
-            <div className="nav-buttons no-print">
-              <button disabled={index === 0} onClick={() => setIndex(index - 1)}>Previous</button>
-              <button disabled={index === items.length - 1} onClick={() => setIndex(index + 1)}>Next</button>
-            </div>
-            <p className="nav-hint no-print">or use ← → arrow keys · swipe on mobile</p>
+            ))}
           </div>
         )}
       </section>
@@ -281,6 +224,33 @@ export default function Resume() {
                 <p className="resume-item-dates">{edu.school} · {edu.startDate} – {edu.endDate}</p>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* PROJECTS */}
+      {!loading && projects.length > 0 && (
+        <section id="projects" className="resume-section">
+          <h2 className="section-title">Projects</h2>
+          <div className="projects-grid">
+            {projects.map(proj => {
+              const match = projectMatchesFilter(proj);
+              const dimClass = match === false ? ' skill-dim' : match === true ? ' skill-match' : '';
+              return (
+                <div key={proj.id} className={`resume-item${dimClass}`}>
+                  <div className="resume-item-header">
+                    <h3>{proj.name}</h3>
+                    {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="item-link">View →</a>}
+                  </div>
+                  {proj.tech && Array.isArray(proj.tech) && proj.tech.length > 0 && (
+                    <div className="skill-tags" style={{margin: '0.4rem 0 0.5rem'}}>
+                      {proj.tech.map((t, i) => <span key={i} className="skill-tag">{t}</span>)}
+                    </div>
+                  )}
+                  <p>{proj.description}</p>
+                </div>
+              );
+            })}
           </div>
         </section>
       )}
@@ -318,33 +288,6 @@ export default function Resume() {
                 </div>
               </div>
             ))}
-          </div>
-        </section>
-      )}
-
-      {/* PROJECTS */}
-      {!loading && projects.length > 0 && (
-        <section id="projects" className="resume-section">
-          <h2 className="section-title">Projects</h2>
-          <div className="list-view">
-            {projects.map(proj => {
-              const match = projectMatchesFilter(proj);
-              const dimClass = match === false ? ' skill-dim' : match === true ? ' skill-match' : '';
-              return (
-                <div key={proj.id} className={`resume-item${dimClass}`}>
-                  <div className="resume-item-header">
-                    <h3>{proj.name}</h3>
-                    {proj.link && <a href={proj.link} target="_blank" rel="noreferrer" className="item-link">View →</a>}
-                  </div>
-                  {proj.tech && Array.isArray(proj.tech) && proj.tech.length > 0 && (
-                    <div className="skill-tags" style={{margin: '0.4rem 0 0.5rem'}}>
-                      {proj.tech.map((t, i) => <span key={i} className="skill-tag">{t}</span>)}
-                    </div>
-                  )}
-                  <p>{proj.description}</p>
-                </div>
-              );
-            })}
           </div>
         </section>
       )}

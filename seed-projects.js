@@ -28,6 +28,20 @@ const projects = [
     tech: ["Python", "Pandas", "Matplotlib", "Jupyter"],
     link: "https://github.com/amangalick/DataScienceProject",
   },
+  {
+    order: 3,
+    name: "Mind Match",
+    description: "Developed and published an iOS app to the App Store. Mind Match is a cognitive matching game focused on memory and pattern recognition.",
+    tech: ["Swift", "SwiftUI", "Xcode", "iOS"],
+    link: "https://apps.apple.com/us/app/mindmatches/id6759942433"
+  },
+  {
+    order: 4,
+    name: "MAV",
+    description: "Collaborative software engineering class project built as part of CSEN 174. Worked in a team to design, develop, and deliver a full application following agile practices.",
+    tech: [],
+    link: "https://github.com/CSEN174-W2026/MAV"
+  },
 ];
 
 console.log(`Uploading ${projects.length} projects...`);
