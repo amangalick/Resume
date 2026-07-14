@@ -1,8 +1,9 @@
 /* ── Base ─────────────────────────────────────── */
 #root {
-  max-width: 880px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 3rem 1.5rem 4rem;
+  padding: 3rem 2rem 4rem;
+  font-size: 17px;
   position: relative;
 }
 
@@ -81,7 +82,7 @@
   font-size: 0.98em;
   color: var(--color-text-secondary);
   line-height: 1.75;
-  max-width: 640px;
+  max-width: 760px;
 }
 
 .hero-bio strong {
